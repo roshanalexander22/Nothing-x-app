@@ -30,8 +30,11 @@ function makeDemoLog(label: string, hex: string): ProtocolLogEntry {
   };
 }
 
+export type NavDirection = "initial" | "forward" | "back";
+
 interface DeviceStore {
   route: AppRoute;
+  navDirection: NavDirection;
   ultraBassSheetOpen: boolean;
   addDeviceModalOpen: boolean;
   demoMode: boolean;
@@ -96,6 +99,7 @@ export const useDeviceStore = create<DeviceStore>((set, get) => {
 
   return {
     route: "home",
+    navDirection: "initial",
     ultraBassSheetOpen: false,
     addDeviceModalOpen: false,
     demoMode: !isTauriRuntime(),
@@ -121,7 +125,14 @@ export const useDeviceStore = create<DeviceStore>((set, get) => {
     ringingLeft: false,
     ringingRight: false,
 
-    setRoute: (route) => set({ route }),
+    setRoute: (route) =>
+      set((state) => {
+        if (state.route === route) return state;
+        return {
+          route,
+          navDirection: route === "home" ? "back" : "forward",
+        };
+      }),
     setUltraBassSheetOpen: (ultraBassSheetOpen) => set({ ultraBassSheetOpen }),
     setAddDeviceModalOpen: (addDeviceModalOpen) => set({ addDeviceModalOpen }),
     clearError: () => set({ errorBanner: null }),

@@ -21,7 +21,7 @@ export const AppInfoPage: React.FC = () => {
   return (
     <SubPageLayout title="About" onBack={() => setRoute("home")}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-        <div className="lg:col-span-7">
+        <div data-flip-id="appinfo-legal" className="lg:col-span-7">
           <StackedCard
             items={[
               {
@@ -72,7 +72,7 @@ export const AppInfoPage: React.FC = () => {
           />
         </div>
 
-        <div className="lg:col-span-5">
+        <div data-flip-id="appinfo-meta" className="lg:col-span-5">
           <h3 className="text-[13px] font-medium text-[var(--nx-text-soft)] mb-2.5 px-1">
             Improvement programme
           </h3>

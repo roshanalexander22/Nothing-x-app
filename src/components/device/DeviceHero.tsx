@@ -17,7 +17,7 @@ const BatteryBar: React.FC<BatteryBarProps> = ({ label, reading }) => {
     <div className="flex flex-col items-center gap-1.5 min-w-[60px]">
       <div className="w-14 h-[3px] rounded-full bg-[var(--nx-track)] overflow-hidden">
         <div
-          className={`h-full transition-all duration-300 ${
+          className={`h-full transition-[width,background-color] duration-300 ${
             isLow ? "bg-[#D71921]" : "bg-[var(--nx-text)]"
           }`}
           style={{
@@ -50,7 +50,10 @@ export const DeviceHero: React.FC = () => {
   const isActive = device.connected || demoMode;
 
   return (
-    <section className="md:flex-1 min-w-0 flex flex-col justify-between bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[24px] xl:rounded-[26px] p-4 xl:p-6 select-none">
+    <section
+      data-flip-id="hero"
+      className="md:flex-1 min-w-0 flex flex-col justify-between bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[24px] xl:rounded-[26px] p-4 xl:p-6 select-none"
+    >
       {/* Subtle hardware meta strip */}
       <div className="flex items-center justify-between gap-2 text-[10px] xl:text-[11px] font-mono text-[var(--nx-muted)] min-w-0">
         <span className="inline-flex items-center gap-1.5 tracking-wider uppercase truncate">
@@ -85,7 +88,7 @@ export const DeviceHero: React.FC = () => {
             src={cmfBudsHero}
             alt={device.modelName}
             draggable={false}
-            className={`relative z-10 w-[86%] h-[86%] object-contain mix-blend-lighten transition-all duration-300 ${
+            className={`relative z-10 w-[86%] h-[86%] object-contain mix-blend-lighten transition-[transform,opacity,filter] duration-300 ${
               isActive
                 ? "opacity-100 scale-100 brightness-[0.97] contrast-[1.15]"
                 : "opacity-55 grayscale scale-95 brightness-[0.95] contrast-[1.15]"

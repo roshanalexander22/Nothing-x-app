@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { EQ_PRESETS } from "../../lib/gestures";
+import { prefersReducedMotion } from "../../lib/useMotion";
 import type { CustomEqBands, EqPreset } from "../../lib/types";
 import { useDeviceStore } from "../../store/useDeviceStore";
 import { SubPageLayout } from "../layout/SubPageLayout";
@@ -37,7 +38,62 @@ export const EqualiserPage: React.FC = () => {
       ? [draftCustom.bass, draftCustom.mid, draftCustom.treble]
       : activeMeta.curve;
 
-  const curvePath = buildSmoothCurvePath(bassVal, midVal, trebleVal);
+  const curvePathRef = useRef<SVGPathElement>(null);
+  const bassDotRef = useRef<SVGCircleElement>(null);
+  const midDotRef = useRef<SVGCircleElement>(null);
+  const trebleDotRef = useRef<SVGCircleElement>(null);
+  const animatedBandsRef = useRef<[number, number, number]>([
+    bassVal,
+    midVal,
+    trebleVal,
+  ]);
+
+  useLayoutEffect(() => {
+    const [sb, sm, st] = animatedBandsRef.current;
+    if (
+      Math.abs(sb - bassVal) < 0.01 &&
+      Math.abs(sm - midVal) < 0.01 &&
+      Math.abs(st - trebleVal) < 0.01
+    ) {
+      return;
+    }
+
+    const applyBands = (b: number, m: number, t: number) => {
+      animatedBandsRef.current = [b, m, t];
+      curvePathRef.current?.setAttribute("d", buildSmoothCurvePath(b, m, t));
+      bassDotRef.current?.setAttribute("cy", String(mapDbToY(b)));
+      midDotRef.current?.setAttribute("cy", String(mapDbToY(m)));
+      trebleDotRef.current?.setAttribute("cy", String(mapDbToY(t)));
+    };
+
+    if (prefersReducedMotion()) {
+      applyBands(bassVal, midVal, trebleVal);
+      return;
+    }
+
+    let rafId = 0;
+    const startTime = performance.now();
+    const duration = 200;
+
+    const tick = (now: number) => {
+      const progress = Math.min(1, (now - startTime) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      applyBands(
+        sb + (bassVal - sb) * eased,
+        sm + (midVal - sm) * eased,
+        st + (trebleVal - st) * eased
+      );
+      if (progress < 1) {
+        rafId = requestAnimationFrame(tick);
+      }
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [bassVal, midVal, trebleVal]);
+
+  const [renderBass, renderMid, renderTreble] = animatedBandsRef.current;
+  const curvePath = buildSmoothCurvePath(renderBass, renderMid, renderTreble);
 
   const handleSelectPreset = (preset: EqPreset) => {
     void setEqPreset(preset);
@@ -55,7 +111,10 @@ export const EqualiserPage: React.FC = () => {
     <SubPageLayout title="Equaliser" onBack={() => setRoute("home")}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
         {/* Left column: Acoustic curve visualizer */}
-        <div className="lg:col-span-5 bg-[var(--nx-card)] rounded-[26px] p-5 xl:p-6 dot-matrix-bg border border-[var(--nx-border)] flex flex-col justify-between">
+        <div
+          data-flip-id="eq-curve"
+          className="lg:col-span-5 bg-[var(--nx-card)] rounded-[26px] p-5 xl:p-6 dot-matrix-bg border border-[var(--nx-border)] flex flex-col justify-between"
+        >
           <div className="flex items-center justify-between text-xs text-[var(--nx-muted)]">
             <span>Response Profile</span>
             <span className="font-mono text-[var(--nx-text)] uppercase px-2.5 py-0.5 rounded-full bg-[var(--nx-elevated)]">
@@ -75,22 +134,31 @@ export const EqualiserPage: React.FC = () => {
                 strokeWidth="1"
               />
               <path
+                ref={curvePathRef}
                 d={curvePath}
                 fill="none"
                 stroke="var(--nx-text)"
                 strokeWidth="2.5"
                 strokeLinecap="round"
               />
-              <circle cx="96" cy={mapDbToY(bassVal)} r="4.5" fill="#D71921" />
               <circle
+                ref={bassDotRef}
+                cx="96"
+                cy={mapDbToY(renderBass)}
+                r="4.5"
+                fill="#D71921"
+              />
+              <circle
+                ref={midDotRef}
                 cx="168"
-                cy={mapDbToY(midVal)}
+                cy={mapDbToY(renderMid)}
                 r="4.5"
                 fill="var(--nx-text)"
               />
               <circle
+                ref={trebleDotRef}
                 cx="244"
-                cy={mapDbToY(trebleVal)}
+                cy={mapDbToY(renderTreble)}
                 r="4.5"
                 fill="var(--nx-text)"
               />
@@ -137,6 +205,7 @@ export const EqualiserPage: React.FC = () => {
                 return (
                   <button
                     key={preset.id}
+                    data-flip-id={`eq-preset-${preset.id}`}
                     type="button"
                     onClick={() => handleSelectPreset(preset.id)}
                     style={
@@ -148,7 +217,7 @@ export const EqualiserPage: React.FC = () => {
                           }
                         : undefined
                     }
-                    className={`rounded-[22px] p-4 text-left transition-all cursor-pointer border ${
+                    className={`rounded-[22px] p-4 text-left transition-[background-color,border-color,color,transform] duration-150 ease-out active:scale-[0.97] cursor-pointer border ${
                       active
                         ? ""
                         : "bg-[var(--nx-card)] text-[var(--nx-text)] border-[var(--nx-border)] hover:bg-[var(--nx-card-hover)]"

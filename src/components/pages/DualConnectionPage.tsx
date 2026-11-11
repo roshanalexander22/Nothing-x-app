@@ -27,7 +27,10 @@ export const DualConnectionPage: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-        <div className="lg:col-span-5 bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[24px] p-5 xl:p-6 flex items-center justify-between gap-4">
+        <div
+          data-flip-id="dual-toggle"
+          className="lg:col-span-5 bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[24px] p-5 xl:p-6 flex items-center justify-between gap-4"
+        >
           <div>
             <h3 className="text-[16px] font-medium text-[var(--nx-text)]">
               Dual Connection
@@ -45,7 +48,7 @@ export const DualConnectionPage: React.FC = () => {
           />
         </div>
 
-        <div className="lg:col-span-7">
+        <div data-flip-id="dual-devices" className="lg:col-span-7">
           <h3 className="text-[13px] font-medium text-[var(--nx-text-soft)] mb-2.5 px-1">
             Paired Devices
           </h3>

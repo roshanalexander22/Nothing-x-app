@@ -38,6 +38,7 @@ export const AncCard: React.FC = () => {
 
   return (
     <section
+      data-flip-id="anc"
       className={`min-w-0 bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[24px] xl:rounded-[26px] p-4 xl:p-6 shrink-0 transition-opacity ${
         interactive ? "opacity-100" : "opacity-60 pointer-events-none"
       }`}
@@ -76,7 +77,7 @@ export const AncCard: React.FC = () => {
                     ? "var(--nx-active-text)"
                     : "var(--nx-pill-inactive-text)",
                 }}
-                className="w-12 h-12 sm:w-[54px] sm:h-[54px] xl:w-[62px] xl:h-[62px] rounded-full flex items-center justify-center transition-all duration-150 shadow-sm group-hover:scale-105"
+                className="w-12 h-12 sm:w-[54px] sm:h-[54px] xl:w-[62px] xl:h-[62px] rounded-full flex items-center justify-center transition-[background-color,color,transform,box-shadow] duration-150 shadow-sm group-hover:scale-105 group-active:scale-95"
               >
                 {mode.renderIcon("w-5 h-5 sm:w-6 sm:h-6")}
               </div>

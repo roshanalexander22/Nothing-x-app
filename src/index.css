@@ -130,3 +130,149 @@ input[type="range"].nothing-slider::-webkit-slider-thumb:active {
   background-image: radial-gradient(var(--nx-dot) 1px, transparent 1px);
   background-size: 12px 12px;
 }
+
+@keyframes nx-page-initial {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes nx-page-forward {
+  from {
+    opacity: 0;
+    transform: translate3d(26px, 0, 0) scale(0.988);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes nx-page-back {
+  from {
+    opacity: 0;
+    transform: translate3d(-20px, 0, 0) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes nx-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes nx-backdrop-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes nx-sheet-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.965);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes nx-sheet-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.965);
+  }
+}
+
+@keyframes nx-toast-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes nx-banner-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.nx-page-initial {
+  animation: nx-page-initial 200ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.nx-page-forward {
+  animation: nx-page-forward 230ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.nx-page-back {
+  animation: nx-page-back 210ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.nx-backdrop-enter {
+  animation: nx-backdrop-in 180ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.nx-backdrop-exit {
+  animation: nx-backdrop-out 160ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  pointer-events: none;
+}
+
+.nx-modal-enter {
+  animation: nx-sheet-in 210ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.nx-modal-exit {
+  animation: nx-sheet-out 160ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.nx-toast-enter {
+  animation: nx-toast-in 200ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.nx-banner-enter {
+  animation: nx-banner-in 180ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-page-initial,
+  .nx-page-forward,
+  .nx-page-back,
+  .nx-backdrop-enter,
+  .nx-backdrop-exit,
+  .nx-modal-enter,
+  .nx-modal-exit,
+  .nx-toast-enter,
+  .nx-banner-enter {
+    animation-duration: 1ms !important;
+  }
+}

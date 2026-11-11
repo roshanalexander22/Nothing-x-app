@@ -18,7 +18,7 @@ export const AboutDevicePage: React.FC = () => {
   return (
     <SubPageLayout title="About" onBack={() => setRoute("home")}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-        <div className="lg:col-span-7">
+        <div data-flip-id="about-main" className="lg:col-span-7">
           {/* Firmware update card */}
           <StackedCard
             items={[
@@ -68,7 +68,7 @@ export const AboutDevicePage: React.FC = () => {
         </div>
 
         {/* Support section */}
-        <div className="lg:col-span-5">
+        <div data-flip-id="about-support" className="lg:col-span-5">
           <h3 className="text-[13px] font-medium text-[var(--nx-text-soft)] mb-2.5 px-1">
             Support
           </h3>

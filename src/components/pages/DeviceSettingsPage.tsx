@@ -37,7 +37,10 @@ export const DeviceSettingsPage: React.FC = () => {
     <SubPageLayout title="Device Settings" onBack={() => setRoute("home")}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
         {/* Find My Earbuds */}
-        <section className="bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[22px] p-5 flex flex-col justify-between">
+        <section
+          data-flip-id="settings-find"
+          className="bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[22px] p-5 flex flex-col justify-between"
+        >
           <div>
             <h3 className="text-[16px] font-medium text-[var(--nx-text)]">
               Find My Earbuds
@@ -92,7 +95,7 @@ export const DeviceSettingsPage: React.FC = () => {
         </section>
 
         {/* Appearance & Nickname */}
-        <div className="space-y-3.5">
+        <div data-flip-id="settings-appearance-col" className="space-y-3.5">
           {/* Appearance */}
           <section className="bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[22px] p-5">
             <h3 className="text-[15px] font-medium text-[var(--nx-text)]">
@@ -159,7 +162,10 @@ export const DeviceSettingsPage: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mt-4 items-stretch">
         {/* App Behavior */}
-        <section className="lg:col-span-5 bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[22px] p-5 space-y-4 flex flex-col justify-between">
+        <section
+          data-flip-id="settings-behavior"
+          className="lg:col-span-5 bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[22px] p-5 space-y-4 flex flex-col justify-between"
+        >
           <div className="space-y-4">
             <div className="flex items-center justify-between gap-3">
               <div>
@@ -229,7 +235,10 @@ export const DeviceSettingsPage: React.FC = () => {
         </section>
 
         {/* Protocol Inspector */}
-        <section className="lg:col-span-7 bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[22px] p-5 flex flex-col">
+        <section
+          data-flip-id="settings-inspector"
+          className="lg:col-span-7 bg-[var(--nx-card)] border border-[var(--nx-border)] rounded-[22px] p-5 flex flex-col"
+        >
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-[15px] font-medium text-[var(--nx-text)]">

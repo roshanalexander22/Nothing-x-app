@@ -127,3 +127,4 @@ cargo test --manifest-path src-tauri/Cargo.toml --lib
 ## Disclaimer
 
 This is an unofficial, independent desktop companion built for personal interoperability with **CMF Buds 2a**. OTA firmware updates are intentionally omitted and remain exclusive to the official Nothing X mobile app.
+

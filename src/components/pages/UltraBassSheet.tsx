@@ -1,4 +1,5 @@
 import React from "react";
+import { useAnimatedPresence } from "../../lib/useMotion";
 import { useDeviceStore } from "../../store/useDeviceStore";
 import { ToggleSwitch } from "../device/ToggleSwitch";
 
@@ -10,17 +11,23 @@ export const UltraBassSheet: React.FC = () => {
     setUltraBass,
   } = useDeviceStore();
 
-  if (!ultraBassSheetOpen) return null;
+  const { mounted, closing } = useAnimatedPresence(ultraBassSheetOpen);
+
+  if (!mounted) return null;
 
   const { enabled, level } = device.ultraBass;
 
   return (
     <div
-      className="fixed inset-0 z-40 bg-black/65 backdrop-blur-sm flex items-end sm:items-center justify-center p-3"
+      className={`fixed inset-0 z-40 bg-black/65 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 ${
+        closing ? "nx-backdrop-exit" : "nx-backdrop-enter"
+      }`}
       onClick={() => setUltraBassSheetOpen(false)}
     >
       <div
-        className="w-full max-w-[420px] bg-[var(--nx-modal)] border border-[var(--nx-border)] rounded-[28px] p-6 shadow-2xl"
+        className={`w-full max-w-[420px] bg-[var(--nx-modal)] border border-[var(--nx-border)] rounded-[28px] p-6 shadow-2xl ${
+          closing ? "nx-modal-exit" : "nx-modal-enter"
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="w-10 h-1 rounded-full bg-[var(--nx-track)] mx-auto mb-4 sm:hidden" />
@@ -68,7 +75,7 @@ export const UltraBassSheet: React.FC = () => {
                         }
                       : undefined
                   }
-                  className={`py-3 rounded-xl text-sm font-medium transition-all cursor-pointer border ${
+                  className={`py-3 rounded-xl text-sm font-medium transition-[background-color,border-color,color,transform] duration-150 active:scale-95 cursor-pointer border ${
                     selected
                       ? ""
                       : filled

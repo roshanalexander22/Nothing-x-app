@@ -1,5 +1,6 @@
 import React from "react";
 import { isTauriRuntime } from "../../lib/tauri";
+import { useAnimatedPresence } from "../../lib/useMotion";
 import { useDeviceStore } from "../../store/useDeviceStore";
 
 export const AddDeviceModal: React.FC = () => {
@@ -18,15 +19,21 @@ export const AddDeviceModal: React.FC = () => {
     exitDemoMode,
   } = useDeviceStore();
 
-  if (!addDeviceModalOpen) return null;
+  const { mounted, closing } = useAnimatedPresence(addDeviceModalOpen);
+
+  if (!mounted) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm flex items-end sm:items-center justify-center p-3"
+      className={`fixed inset-0 z-50 bg-black/65 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 ${
+        closing ? "nx-backdrop-exit" : "nx-backdrop-enter"
+      }`}
       onClick={() => setAddDeviceModalOpen(false)}
     >
       <div
-        className="w-full max-w-[440px] bg-[var(--nx-modal)] border border-[var(--nx-border)] rounded-[26px] p-5 shadow-2xl"
+        className={`w-full max-w-[440px] bg-[var(--nx-modal)] border border-[var(--nx-border)] rounded-[26px] p-5 shadow-2xl ${
+          closing ? "nx-modal-exit" : "nx-modal-enter"
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between">

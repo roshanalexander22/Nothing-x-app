@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   ACTION_CATALOG,
   B185_GESTURE_SLOTS,
@@ -7,6 +7,7 @@ import {
   DEVICE_RIGHT,
   getActionLabel,
 } from "../../lib/gestures";
+import { useAnimatedPresence } from "../../lib/useMotion";
 import { useDeviceStore } from "../../store/useDeviceStore";
 import { ChevronDotsIcon } from "../icons/NothingIcons";
 import { SubPageLayout } from "../layout/SubPageLayout";
@@ -74,7 +75,7 @@ export const ControlsPage: React.FC = () => {
               key={`${side}-${slot.gesture}`}
               type="button"
               onClick={() => setEditingTarget({ side, gesture: slot.gesture })}
-              className={`w-full bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] ${radius} px-5 py-4 flex items-center justify-between gap-3 text-left transition-colors cursor-pointer`}
+              className={`w-full bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] ${radius} px-5 py-4 flex items-center justify-between gap-3 text-left transition-[background-color,transform] duration-150 ease-out active:scale-[0.992] cursor-pointer`}
             >
               <div className="min-w-0">
                 <div className="text-[15px] text-[var(--nx-text)] font-medium">
@@ -98,9 +99,20 @@ export const ControlsPage: React.FC = () => {
     </div>
   );
 
-  const editingSlot =
+  const { mounted: modalMounted, closing: modalClosing } = useAnimatedPresence(
     editingTarget !== null
-      ? B185_GESTURE_SLOTS.find((s) => s.gesture === editingTarget.gesture) ??
+  );
+  const lastTargetRef = useRef<EditingTarget | null>(null);
+  if (editingTarget) {
+    lastTargetRef.current = editingTarget;
+  } else if (!modalMounted) {
+    lastTargetRef.current = null;
+  }
+  const activeTarget = editingTarget ?? lastTargetRef.current;
+
+  const editingSlot =
+    activeTarget !== null
+      ? B185_GESTURE_SLOTS.find((s) => s.gesture === activeTarget.gesture) ??
         null
       : null;
 
@@ -167,18 +179,22 @@ export const ControlsPage: React.FC = () => {
       </div>
 
       {/* Action selector sheet */}
-      {editingSlot && editingTarget ? (
+      {modalMounted && editingSlot && activeTarget ? (
         <div
-          className="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm flex items-end sm:items-center justify-center p-3"
+          className={`fixed inset-0 z-50 bg-black/65 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 ${
+            modalClosing ? "nx-backdrop-exit" : "nx-backdrop-enter"
+          }`}
           onClick={() => setEditingTarget(null)}
         >
           <div
-            className="w-full max-w-[440px] bg-[var(--nx-modal)] border border-[var(--nx-border)] rounded-[28px] p-5 shadow-2xl"
+            className={`w-full max-w-[440px] bg-[var(--nx-modal)] border border-[var(--nx-border)] rounded-[28px] p-5 shadow-2xl ${
+              modalClosing ? "nx-modal-exit" : "nx-modal-enter"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="w-10 h-1 rounded-full bg-[var(--nx-track)] mx-auto mb-3 sm:hidden" />
             <h3 className="font-serif text-xl text-[var(--nx-text)]">
-              {editingTarget.side === "left" ? "Left" : "Right"} ·{" "}
+              {activeTarget.side === "left" ? "Left" : "Right"} ·{" "}
               {editingSlot.label}
             </h3>
             <p className="text-xs text-[var(--nx-muted)] mt-0.5">
@@ -188,7 +204,7 @@ export const ControlsPage: React.FC = () => {
             <div className="mt-4 space-y-1.5 max-h-72 overflow-y-auto nothing-scroll">
               {editingSlot.allowedActions.map((code) => {
                 const current = getCurrentAction(
-                  editingTarget.side,
+                  activeTarget.side,
                   editingSlot.gesture,
                   editingSlot.defaultAction
                 );
@@ -201,7 +217,7 @@ export const ControlsPage: React.FC = () => {
                     type="button"
                     onClick={() => {
                       void setGesture({
-                        device: getDeviceId(editingTarget.side),
+                        device: getDeviceId(activeTarget.side),
                         button: DEFAULT_BUTTON,
                         gesture: editingSlot.gesture,
                         action: code,

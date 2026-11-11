@@ -59,14 +59,15 @@ export const FeatureGrid: React.FC = () => {
     <section className="min-w-0 grid grid-cols-2 md:grid-rows-4 md:h-full xl:grid-cols-6 xl:grid-rows-3 gap-3 sm:gap-3.5 xl:gap-4">
       {/* Row 1 Left: Ultra Bass */}
       <div
+        data-flip-id="ultra-bass"
         role="button"
         tabIndex={0}
         onClick={() => interactive && setUltraBassSheetOpen(true)}
         onKeyDown={(e) => {
           if (e.key === "Enter" && interactive) setUltraBassSheetOpen(true);
         }}
-        className={`min-w-0 col-span-1 xl:col-span-3 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between transition-colors cursor-pointer ${
-          !interactive ? "opacity-60" : ""
+        className={`min-w-0 col-span-1 xl:col-span-3 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between transition-[background-color,transform] duration-150 ease-out ${
+          interactive ? "cursor-pointer active:scale-[0.985]" : "opacity-60 cursor-not-allowed"
         }`}
       >
         <div className="flex items-start justify-between gap-2 xl:gap-3 min-w-0">
@@ -129,10 +130,11 @@ export const FeatureGrid: React.FC = () => {
 
       {/* Row 1 Right: Equaliser */}
       <button
+        data-flip-id="equaliser"
         type="button"
         disabled={!interactive}
         onClick={() => setRoute("equaliser")}
-        className="min-w-0 col-span-1 xl:col-span-3 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] disabled:opacity-60 rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between text-left transition-colors cursor-pointer disabled:cursor-not-allowed"
+        className="min-w-0 col-span-1 xl:col-span-3 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] disabled:opacity-60 rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between text-left transition-[background-color,transform] duration-150 ease-out active:enabled:scale-[0.985] cursor-pointer disabled:cursor-not-allowed"
       >
         <div className="flex items-start justify-between gap-2 xl:gap-3 w-full min-w-0">
           <div className="min-w-0">
@@ -182,10 +184,11 @@ export const FeatureGrid: React.FC = () => {
 
       {/* Row 2 Left: Controls */}
       <button
+        data-flip-id="controls"
         type="button"
         disabled={!interactive}
         onClick={() => setRoute("controls")}
-        className="min-w-0 col-span-1 xl:col-span-2 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] disabled:opacity-60 rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between text-left transition-colors cursor-pointer disabled:cursor-not-allowed"
+        className="min-w-0 col-span-1 xl:col-span-2 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] disabled:opacity-60 rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between text-left transition-[background-color,transform] duration-150 ease-out active:enabled:scale-[0.985] cursor-pointer disabled:cursor-not-allowed"
       >
         <div className="flex items-start justify-between gap-2 w-full min-w-0">
           <div className="min-w-0">
@@ -209,6 +212,7 @@ export const FeatureGrid: React.FC = () => {
 
       {/* Row 2 Center: Low Lag Mode */}
       <div
+        data-flip-id="low-lag"
         role="button"
         tabIndex={0}
         onClick={() => interactive && void setLowLagMode(!device.lowLagMode)}
@@ -216,8 +220,8 @@ export const FeatureGrid: React.FC = () => {
           if (e.key === "Enter" && interactive)
             void setLowLagMode(!device.lowLagMode);
         }}
-        className={`min-w-0 col-span-1 xl:col-span-2 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between transition-colors cursor-pointer ${
-          !interactive ? "opacity-60" : ""
+        className={`min-w-0 col-span-1 xl:col-span-2 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between transition-[background-color,transform] duration-150 ease-out ${
+          interactive ? "cursor-pointer active:scale-[0.985]" : "opacity-60 cursor-not-allowed"
         }`}
       >
         <div className="flex items-start justify-between gap-2 min-w-0">
@@ -247,10 +251,11 @@ export const FeatureGrid: React.FC = () => {
 
       {/* Row 2 Right / Row 3 Left: Dual Connection */}
       <button
+        data-flip-id="dual-connection"
         type="button"
         disabled={!interactive}
         onClick={() => setRoute("dualConnection")}
-        className="min-w-0 col-span-1 xl:col-span-2 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] disabled:opacity-60 rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between text-left transition-colors cursor-pointer disabled:cursor-not-allowed"
+        className="min-w-0 col-span-1 xl:col-span-2 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] disabled:opacity-60 rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between text-left transition-[background-color,transform] duration-150 ease-out active:enabled:scale-[0.985] cursor-pointer disabled:cursor-not-allowed"
       >
         <div className="flex items-start justify-between gap-2 w-full min-w-0">
           <div className="min-w-0">
@@ -275,9 +280,10 @@ export const FeatureGrid: React.FC = () => {
 
       {/* Row 3 Right / Left: Device Settings */}
       <button
+        data-flip-id="device-settings"
         type="button"
         onClick={() => setRoute("deviceSettings")}
-        className="min-w-0 col-span-1 xl:col-span-3 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between text-left transition-colors cursor-pointer"
+        className="min-w-0 col-span-1 xl:col-span-3 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[120px] xl:min-h-[144px] h-full flex flex-col justify-between text-left transition-[background-color,transform] duration-150 ease-out active:scale-[0.985] cursor-pointer"
       >
         <div className="flex items-start justify-between gap-2 xl:gap-3 w-full min-w-0">
           <div className="min-w-0">
@@ -304,9 +310,10 @@ export const FeatureGrid: React.FC = () => {
 
       {/* Row 4 (medium & mobile) / Row 3 Right (fullscreen): About */}
       <button
+        data-flip-id="about"
         type="button"
         onClick={() => setRoute("aboutDevice")}
-        className="min-w-0 col-span-2 xl:col-span-3 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[116px] xl:min-h-[144px] h-full flex flex-col justify-between text-left transition-colors cursor-pointer"
+        className="min-w-0 col-span-2 xl:col-span-3 bg-[var(--nx-card)] hover:bg-[var(--nx-card-hover)] border border-[var(--nx-border)] rounded-[22px] xl:rounded-[26px] p-4 xl:p-6 min-h-[116px] xl:min-h-[144px] h-full flex flex-col justify-between text-left transition-[background-color,transform] duration-150 ease-out active:scale-[0.99] cursor-pointer"
       >
         <div className="flex items-start justify-between gap-2 xl:gap-3 w-full min-w-0">
           <div className="min-w-0">

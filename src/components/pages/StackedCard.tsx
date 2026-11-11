@@ -43,9 +43,9 @@ export const StackedCard: React.FC<StackedCardProps> = ({
               : {})}
             className={`w-full bg-[var(--nx-card)] border border-[var(--nx-border)] ${
               item.onClick
-                ? "hover:bg-[var(--nx-card-hover)] cursor-pointer"
+                ? "hover:bg-[var(--nx-card-hover)] active:scale-[0.992] cursor-pointer"
                 : ""
-            } ${radiusClass} px-5 py-4 flex items-center justify-between gap-3 text-left transition-colors`}
+            } ${radiusClass} px-5 py-4 flex items-center justify-between gap-3 text-left transition-[background-color,transform] duration-150 ease-out`}
           >
             <div className="flex items-center gap-3.5 min-w-0">
               {item.icon ? (
