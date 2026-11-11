@@ -1,0 +1,12 @@
+# Node dependencies
+node_modules/
+
+# Build outputs (precompiled Windows binaries live in dist-release/)
+dist/
+src-tauri/target/
+
+# Tauri & editor artifacts
+*.local
+*.log
+.DS_Store
+Thumbs.db
